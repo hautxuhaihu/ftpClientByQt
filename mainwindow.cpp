@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 //    connect(ui->lineEdit, &QLineEdit::textChanged, this, &MainWindow::test);
-
+    //ceshi
 }
 
 void MainWindow::test(const QString &s){
