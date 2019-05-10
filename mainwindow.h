@@ -11,6 +11,8 @@
 #include <QNetworkReply>
 #include <QFile>
 #include <QString>
+#include <QFileDialog>
+#include <QScreen>
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +32,9 @@ private slots:
     void test(const QString &s);
     void on_get_clicked();
     void manageGetResult(QNetworkReply *reply);
+
+
+    void on_put_clicked();
 
 private:
     Ui::MainWindow *ui;

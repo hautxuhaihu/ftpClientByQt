@@ -48,7 +48,8 @@ void MainWindow::manageGetResult(QNetworkReply *reply)
     switch(reply->error()){
     case QNetworkReply::NoError:
         data=reply->readAll();//从url中读取文件内容，输出到data中（也可以再将数据写入到文件中，为了方便，这里就权且打印一下吧）
-        QMessageBox::information(this,"Put information","Download Success!The file you've got is :"+data);
+        ftpWrite(data);
+        QMessageBox::information(this,"Put information","Download Success!");
         break;
     case QNetworkReply::HostNotFoundError:
         QMessageBox::information(this,"Put information","Host Not Found!");
@@ -64,10 +65,19 @@ void MainWindow::manageGetResult(QNetworkReply *reply)
 
 void MainWindow::ftpWrite(QByteArray data)
 {
-    int position= (ui->server->text()).lastIndexOf("/");
-    QString fileName= (ui->server->text()).mid(position+1);
-    qDebug() << fileName;
+//    int position= (ui->server->text()).lastIndexOf("/");
+//    QString fileName= (ui->server->text()).mid(position+1);
+//    qDebug() << fileName;
+    QUrl fileUrl = QFileDialog::getSaveFileUrl(this,tr("Save File"),QUrl(""),tr("File(*.*)")); //选择路径
 
-
+    QFile ftpFile(fileUrl.toLocalFile());
+    ftpFile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    ftpFile.write(data);
+    ftpFile.close();
 }
 
+
+void MainWindow::on_put_clicked()
+{
+
+}
