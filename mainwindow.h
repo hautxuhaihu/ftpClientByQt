@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QtDebug>
@@ -9,6 +10,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QFile>
+#include <QString>
 
 namespace Ui {
 class MainWindow;
@@ -21,13 +23,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void ftpGet();
+    void ftpWrite(QByteArray data);
 
 private slots:
     void test(const QString &s);
     void on_get_clicked();
     void manageGetResult(QNetworkReply *reply);
-    void slotGet();
-
 
 private:
     Ui::MainWindow *ui;
