@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->password->setEchoMode(QLineEdit::Password);
 }
 
 MainWindow::~MainWindow()
@@ -139,6 +140,9 @@ void MainWindow::loadProgress(qint64 bytesSent, qint64 bytesTotal)    //更新�
        qDebug() << "loaded" << bytesSent << "of" << bytesTotal;
        progressBar->setMaximum(bytesTotal); //最大值
        progressBar->setValue(bytesSent);  //当前值
+       if(bytesSent==bytesTotal){
+           progressBar->close();
+       }
 }
 
 void MainWindow::initProgressBar()
@@ -148,3 +152,4 @@ void MainWindow::initProgressBar()
     progressBar->setValue(0);
     progressBar->show();
 }
+

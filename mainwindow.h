@@ -14,6 +14,7 @@
 #include <QFileDialog>
 #include <QScreen>
 #include <QProgressBar>
+#include <QLineEdit>
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,7 @@ private slots:
     void manageUploadResult(QNetworkReply *reply);
     void on_push_clicked();
     void loadProgress(qint64 bytesSent, qint64 bytesTotal);
+
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager ftpManager;
