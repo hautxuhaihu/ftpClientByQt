@@ -36,7 +36,6 @@ void MainWindow::ftpDown(){
  ftpReply=ftpManager.get(QNetworkRequest(url));
 // ftpManager2->get(QNetworkRequest(url))
 
-
  connect(ftpReply,SIGNAL(downloadProgress(qint64,qint64)),SLOT(loadProgress(qint64 ,qint64)));
  connect(&ftpManager,SIGNAL(finished(QNetworkReply*)),SLOT(manageDownResult(QNetworkReply*)));//接收返回值
 }
@@ -48,11 +47,10 @@ void MainWindow::ftpUpload(QByteArray data){
  url.setUserName(ui->username->text());
  url.setPassword(ui->password->text());
 // qDebug() << data;
- ftpManager.put(QNetworkRequest(url),data);
-
+ ftpReply=ftpManager.put(QNetworkRequest(url),data);
 
  connect(&ftpManager,SIGNAL(finished(QNetworkReply*)),SLOT(manageUploadResult(QNetworkReply*)));//接收返回值
-// connect(&ftpManager, SIGNAL(uplaodProgress(int,int)), SLOT(loadProgress(int, int)));
+ connect(ftpReply, SIGNAL(uploadProgress(qint64,qint64)), SLOT(loadProgress(qint64 ,qint64)));
 }
 
 void MainWindow::manageDownResult(QNetworkReply *reply)
@@ -116,14 +114,15 @@ void MainWindow::on_push_clicked()
     {
         QMessageBox::warning(this,"Error","Please fill in the information");
     }else {
-        //    QByteArray data=nullptr;
+        fileUrl = QFileDialog::getOpenFileUrl(this,tr("Upload File"),QUrl(""),tr("File(*.*)")); //选择路径
+        initProgressBar();
         ftpUpload(ftpRead());
     }
 }
 
 QByteArray MainWindow::ftpRead()
 {
-    QUrl fileUrl = QFileDialog::getOpenFileUrl(this,tr("Upload File"),QUrl(""),tr("File(*.*)")); //选择路径
+//    QUrl fileUrl = QFileDialog::getOpenFileUrl(this,tr("Upload File"),QUrl(""),tr("File(*.*)")); //选择路径
     QFile ftpFile(fileUrl.toLocalFile());
     if(!ftpFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
