@@ -13,6 +13,7 @@
 #include <QString>
 #include <QFileDialog>
 #include <QScreen>
+#include <QProgressBar>
 
 namespace Ui {
 class MainWindow;
@@ -25,22 +26,25 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void ftpGet();
+    void ftpDown();
+    void ftpUpload(QByteArray data);
     void ftpWrite(QByteArray data);
+    QByteArray ftpRead();
+    void initProgressBar();
 
 private slots:
-    void test(const QString &s);
     void on_get_clicked();
-    void manageGetResult(QNetworkReply *reply);
-
-
-    void on_put_clicked();
-
+    void manageDownResult(QNetworkReply *reply);
+    void manageUploadResult(QNetworkReply *reply);
+    void on_push_clicked();
+    void loadProgress(qint64 bytesSent, qint64 bytesTotal);
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager ftpManager;
+    QNetworkReply *ftpReply;
+    QProgressBar *progressBar;
+    QUrl fileUrl;
 //    QNetworkAccessManager *ftpManager2 = new QNetworkAccessManager ();
-//    QNetworkReply* ftpReply;
 };
 
 #endif // MAINWINDOW_H
